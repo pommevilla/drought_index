@@ -7,6 +7,7 @@ rule targets:
         "data/ghcnd_tidy.tsv.gz",
         "data/ghcnd_regions_years.tsv",
         "figures/world_drought.png",
+        "figures/snakemake_dag.png",
         "index.html"
 
 rule get_all_archive:
@@ -99,4 +100,14 @@ rule render_index:
     shell:
         """
         R -e "library(rmarkdown); render('{input.rmd}')"
+        """
+
+rule generate_snakemake_dag:
+    input:
+        script = "code/make_snakemake_dag.bash"
+    output:
+        "figures/snakemake_dag.png"
+    shell:
+        """
+        {input.script}
         """
