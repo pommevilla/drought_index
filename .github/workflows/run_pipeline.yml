@@ -1,5 +1,5 @@
 name: Run Drought Index Workflow
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is running the Snakemake workflow
 on: [push]
 jobs:
   Run-Drought-Index-Workflow:
@@ -19,11 +19,20 @@ jobs:
       - name: Get working directory
         run: |
           pwd
-      - run: echo "🍏 This job's status is ${{ job.status }}."
       - name: Snakemake workflow
         uses: snakemake/snakemake-github-action@v1
         with:
-          directory: '.'
-          snakefile: 'Snakefile'
-          args: '--cores 3 --use-conda --conda-cleanup-pkgs cache'
-          stagein: ''
+          directory: "."
+          snakefile: "Snakefile"
+          args: "--cores 3 --use-conda --conda-cleanup-pkgs cache"
+          stagein: ""
+      - name: Configure git on runner
+        run: |
+          git config --local user.email "noreplay@github.com"
+          git config --local user.name "GitHub"
+      - name: Commit changes to repository
+        run: |
+          git add figures/world_drought.png index.html
+          git commit -m "New day's rendering"
+          git push origin main
+      - run: echo "🍏 This job's status is ${{ job.status }}."

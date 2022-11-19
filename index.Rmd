@@ -8,6 +8,12 @@ email_address: pvillanueva13@gmail.com
 github_repo: https://github.com/pommevilla/drought_index/
 ---
 
+```{css echo = FALSE}
+.main-container {
+    max-width: 100%;
+}
+```
+
 ![](figures/world_drought.png)
 
 Last updated on `r lubridate::today()`.  
