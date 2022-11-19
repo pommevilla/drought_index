@@ -36,6 +36,7 @@ process_xfiles <- function(x) {
             prcp = replace_na(prcp, "0"),
             prcp = as.numeric(prcp) / 100 # prcp now in cm
         ) %>%
+        drop_na(date) %>%
         select(id, date, prcp) %>%
         mutate(
             julian_day = yday(date),
