@@ -1,0 +1,14 @@
+---
+title: Drought index for world
+author: Paul Villanueva
+output: 
+    html_document:
+        css: "styles/styles.css"
+email_address: pvillanueva13@gmail.com
+github_repo: https://github.com/pommevilla/drought_index/
+---
+
+![](figures/world_drought.png)
+
+Last updated on `r lubridate::today()`.  
+Site [developed](`r rmarkdown::metadata$github_repo`) by [Paul Villanueva](mailto:`r rmarkdown::metadata$email_address`).
