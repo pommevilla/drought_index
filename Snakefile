@@ -8,7 +8,9 @@ rule targets:
         "data/ghcnd_regions_years.tsv",
         "figures/world_drought.png",
         "figures/snakemake_dag.png",
-        "index.html"
+        "index.html",
+        "docs/index.html",
+        "docs/figures/world_drought.png"
 
 rule get_all_archive:
     input:
@@ -125,6 +127,17 @@ rule generate_snakemake_dag:
         "figures/snakemake_dag.png"
     conda:
         "environment.yml"
+    shell:
+        """
+        {input.script}
+        """
+
+rule prepare_for_publishing:
+    input:
+        script = "prepare_for_publishing.bash"
+    output:
+        "docs/index.html",
+        "docs/figures/world_drought.png"
     shell:
         """
         {input.script}
