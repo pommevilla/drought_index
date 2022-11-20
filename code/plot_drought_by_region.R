@@ -3,6 +3,11 @@
 library(tidyverse)
 library(lubridate)
 library(glue)
+library(showtext)
+
+font_add_google("Roboto slab", family = "roboto-slab")
+font_add_google("Rubik", family = "rubik")
+showtext_auto()
 
 prcp_data <- read_tsv("data/ghcnd_tidy.tsv.gz")
 
@@ -44,15 +49,15 @@ lat_long_prcp %>%
         panel.background = element_rect(fill = "black"),
         panel.grid = element_blank(),
         legend.background = element_blank(),
-        legend.text = element_text(color = "#f5f5f5"),
+        legend.text = element_text(color = "#f5f5f5", family = "rubik"),
         legend.position = c(0.15, 0.0),
         axis.ticks = element_blank(),
         axis.text = element_blank(),
         legend.key.height = unit(0.25, "cm"),
         legend.direction = "horizontal",
-        plot.title = element_text(color = "#f5f5f5", size = 18),
-        plot.caption = element_text(color = "#f5f5f5"),
-        plot.subtitle = element_text(color = "#f5f5f5")
+        plot.title = element_text(color = "#f5f5f5", size = 20, family = "roboto-slab"),
+        plot.caption = element_text(color = "#f5f5f5", family = "rubik"),
+        plot.subtitle = element_text(color = "#f5f5f5", family = "rubik")
     ) +
     labs(
         title = glue("Amount of precipitation for {start} to {end}"),

@@ -8,6 +8,10 @@ email_address: pvillanueva13@gmail.com
 github_repo: https://github.com/pommevilla/drought_index/
 ---
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Rubik&display=swap" rel="stylesheet">
+
 ```{css echo = FALSE}
 .main-container {
     max-width: 100%;
