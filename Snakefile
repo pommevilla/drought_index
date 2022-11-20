@@ -134,7 +134,9 @@ rule generate_snakemake_dag:
 
 rule prepare_for_publishing:
     input:
-        script = "prepare_for_publishing.bash"
+        script = "code/prepare_for_publishing.bash",
+        figure = "figures/world_drought.png",
+        index_page = "index.html"
     output:
         "docs/index.html",
         "docs/figures/world_drought.png"

@@ -2,9 +2,10 @@
     display: none;
 }
 
-.main-container {
-    width: 100% !important; 
-}
+/* .main-container {
+    width: 100%;
+    max-width: unset;
+} */
 
 body {
     background-color: black;
