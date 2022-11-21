@@ -1,9 +1,9 @@
 name: Run Drought Index Workflow
 run-name: ${{ github.event.repository.updated_at}} run
 on:
-  # [push]
-  schedule:
-    - cron: "40 1 * * * "
+  [push]
+  # schedule:
+  # - cron: "40 1 * * * "
 jobs:
   Run-Drought-Index-Workflow:
     runs-on: ubuntu-latest

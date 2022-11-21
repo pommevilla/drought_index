@@ -34,6 +34,8 @@ start <- case_when(
     TRUE ~ NA_character_
 )
 
+world_map <- map_data("world") %>%
+    filter(region != "Antarctica")
 
 date_range <- glue("{start} to {end}")
 
@@ -52,6 +54,13 @@ lat_long_prcp %>%
         TRUE ~ z_score
     )) %>%
     ggplot(aes(longitude, latitude, fill = z_score)) +
+    geom_map(
+        data = world_map, aes(map_id = region),
+        map = world_map, fill = NA, color = "#f5f5f5",
+        linewidth = 0.1,
+        inherit.aes = FALSE
+    ) +
+    expand_limits(x = world_map$long, y = world_map$lat) +
     geom_tile() +
     coord_fixed() +
     scale_fill_gradient2(
