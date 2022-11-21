@@ -8,18 +8,34 @@ library(showtext)
 font_add_google("Roboto slab", family = "roboto-slab")
 font_add_google("Rubik", family = "rubik")
 showtext_auto()
+showtext_opts(dpi = 300)
 
 prcp_data <- read_tsv("data/ghcnd_tidy.tsv.gz")
 
 station_data <- read_tsv("data/ghcnd_regions_years.tsv")
 
+buffered_end <- today() - 5
+buffered_start <- buffered_end - 30
+
 lat_long_prcp <- inner_join(prcp_data, station_data, by = "id") %>%
-    filter((year != first_year & year != last_year) | year == 2022) %>%
+    filter((year != first_year & year != last_year) | year == year(buffered_end)) %>%
     group_by(latitude, longitude, year) %>%
     summarize(mean_prcp = mean(prcp), .groups = "drop")
 
-end <- format(today(), "%B %d")
-start <- format(today() - 30, "%B %d")
+end <- case_when(
+    month(buffered_start) != month(buffered_end) ~ format(buffered_end, "%B %d, %Y"),
+    month(buffered_start) == month(buffered_end) ~ format(buffered_end, "%d, %Y"),
+    TRUE ~ NA_character_
+)
+
+start <- case_when(
+    year(buffered_start) != year(buffered_end) ~ format(buffered_start, "%B %d, %Y"),
+    year(buffered_start) == year(buffered_end) ~ format(buffered_start, "%B %d"),
+    TRUE ~ NA_character_
+)
+
+
+date_range <- glue("{start} to {end}")
 
 lat_long_prcp %>%
     group_by(latitude, longitude) %>%
@@ -28,7 +44,7 @@ lat_long_prcp %>%
         n = n()
     ) %>%
     ungroup() %>%
-    filter(n >= 50 & year == 2022) %>%
+    filter(n >= 50 & year == year(buffered_end)) %>%
     select(-c(n, mean_prcp, year)) %>%
     mutate(z_score = case_when(
         z_score > 2 ~ 2,
@@ -55,13 +71,13 @@ lat_long_prcp %>%
         axis.text = element_blank(),
         legend.key.height = unit(0.25, "cm"),
         legend.direction = "horizontal",
-        plot.title = element_text(color = "#f5f5f5", size = 20, family = "roboto-slab"),
+        plot.title = element_text(color = "#f5f5f5", size = 18, family = "roboto-slab"),
         plot.caption = element_text(color = "#f5f5f5", family = "rubik"),
-        plot.subtitle = element_text(color = "#f5f5f5", family = "rubik")
+        plot.subtitle = element_text(color = "#f5f5f5", size = 10, family = "rubik")
     ) +
     labs(
-        title = glue("Amount of precipitation for {start} to {end}"),
-        subtitle = "Standardized z-scores for at least hte past 50 years",
+        title = glue("Amount of precipitation for {date_range}"),
+        subtitle = "Standardized z-scores for at least the past 50 years",
         caption = "Precipitation data collected from GHCN daily data at NOAA"
     )
 

@@ -4,7 +4,7 @@ library(tidyverse)
 library(glue)
 library(lubridate)
 
-tday_julian <- yday(today())
+tday_julian <- yday(today() - 5)
 window <- 30
 
 quadruplet <- function(x) {
